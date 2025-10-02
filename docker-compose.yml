@@ -8,10 +8,10 @@ services:
         - ./config:/config
         - ./op-reth-entrypoint:/op-reth-entrypoint
     restart: always
-#    ports:
-#      - 9545:8545
-#      - 9546:8546
-#      - 30303:30303
+    ports:
+      - 9545:8545
+      - 9546:8546
+      - 30303:30303
     env_file:
       - ./config/.env
     logging:
@@ -26,9 +26,9 @@ services:
     depends_on:
       - op-reth
     entrypoint: /op-node-entrypoint
-#    ports:
-#      - 9223:9223/tcp
-#      - 9223:9223/udp
+    ports:
+      - 9223:9223/tcp
+      - 9223:9223/udp
 #      - 8547:8547
     restart: always
     volumes:
