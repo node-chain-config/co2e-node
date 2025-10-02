@@ -1,0 +1,45 @@
+services:
+  op-reth:
+    image:  ghcr.io/paradigmxyz/op-reth
+    user: root
+    entrypoint: /op-reth-entrypoint
+    volumes:
+        - ./data/op-reth:/datadir
+        - ./config:/config
+        - ./op-reth-entrypoint:/op-reth-entrypoint
+    restart: always
+#    ports:
+#      - 9545:8545
+#      - 9546:8546
+#      - 30303:30303
+    env_file:
+      - ./config/.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+  op-node:
+    image:  ghcr.io/otternode-io/ott-op-stack-1136:latest
+    user: root
+    depends_on:
+      - op-reth
+    entrypoint: /op-node-entrypoint
+#    ports:
+#      - 9223:9223/tcp
+#      - 9223:9223/udp
+#      - 8547:8547
+    restart: always
+    volumes:
+        - ./config:/config
+        - ./op-node-entrypoint:/op-node-entrypoint
+        - ./data:/data
+        - ./data/op_log:/op_log
+    env_file:
+      - ./config/.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
